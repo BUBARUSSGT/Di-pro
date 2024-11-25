@@ -25,20 +25,36 @@ import ru.iteco.fmhandroid.R;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class ValidAuthorization {
+public class Scenario_Number_One {
     @Rule
     public ActivityScenarioRule<AppActivity> mActivityScenarioRule =
             new ActivityScenarioRule<>(AppActivity.class);
 
     @Test
-    public void shouldBeAbleToLoadList() {
-        onView(isRoot()).perform(waitDisplayed(R.id.login_text_input_layout, 15000));
-        onView(withId(R.id.login_text_input_layout)).perform(click());
-        onView(withId(R.id.login_edit_text)).perform(click(), typeText("login2"));
-        onView(withId(R.id.password_text_input_layout)).perform(click());
-        onView(withId(R.id.password_edit_text)).perform(click(), typeText("password2"));
-        onView(withId(R.id.enter_button)).perform(click());
-        onView(isRoot()).perform(waitDisplayed(R.id.container_list_news_include_on_fragment_main, 15000));
-        onView(withText("News")).check(matches(isDisplayed()));
+    public void Authorization_with_valid_data() {
+        waitForViewToBeDisplayed(R.id.login_text_input_layout, 15000);
+        performClickOnView(R.id.login_text_input_layout);
+        enterTextInView(R.id.login_edit_text, "login2");
+        performClickOnView(R.id.password_text_input_layout);
+        enterTextInView(R.id.password_edit_text, "password2");
+        performClickOnView(R.id.enter_button);
+        waitForViewToBeDisplayed(R.id.container_list_news_include_on_fragment_main, 15000);
+        verifyViewIsDisplayed("News");
+    }
+
+    private void waitForViewToBeDisplayed(int viewId, long timeout) {
+        onView(isRoot()).perform(waitDisplayed(viewId, timeout));
+    }
+
+    private void performClickOnView(int viewId) {
+        onView(withId(viewId)).perform(click());
+    }
+
+    private void enterTextInView(int viewId, String text) {
+        onView(withId(viewId)).perform(click(), typeText(text));
+    }
+
+    private void verifyViewIsDisplayed(String text) {
+        onView(withText(text)).check(matches(isDisplayed()));
     }
 }
