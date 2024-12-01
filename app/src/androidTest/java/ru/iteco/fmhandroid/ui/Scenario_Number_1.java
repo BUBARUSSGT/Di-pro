@@ -1,5 +1,6 @@
 package ru.iteco.fmhandroid.ui;
 
+
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
@@ -8,6 +9,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+
 import static ru.iteco.fmhandroid.ui.customFile.TestUtilities.waitDisplayed;
 
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
@@ -18,47 +20,41 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+
 import ru.iteco.fmhandroid.R;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class TestCase7 {
+public class Scenario_Number_1 {
     @Rule
     public ActivityScenarioRule<AppActivity> mActivityScenarioRule =
             new ActivityScenarioRule<>(AppActivity.class);
 
     @Test
-    public void applicationInformation() {
-        waitForView(R.id.login_text_input_layout, 15000);
-        performClick(R.id.login_text_input_layout);
-        typeTextInView(R.id.login_edit_text, "login2");
-        performClick(R.id.password_text_input_layout);
-        typeTextInView(R.id.password_edit_text, "password2");
-        performClick(R.id.enter_button);
-        waitForView(R.id.main_menu_image_button, 5000);
-        performClick(R.id.main_menu_image_button);
-        performClickWithText("About");
-        waitForView(R.id.about_privacy_policy_value_text_view, 15000);
-        checkViewIsDisplayed("Privacy Policy:");
+    public void Authorization_with_valid_data() {
+        waitForViewToBeDisplayed(R.id.login_text_input_layout, 15000);
+        performClickOnView(R.id.login_text_input_layout);
+        enterTextInView(R.id.login_edit_text, "login2");
+        performClickOnView(R.id.password_text_input_layout);
+        enterTextInView(R.id.password_edit_text, "password2");
+        performClickOnView(R.id.enter_button);
+        waitForViewToBeDisplayed(R.id.container_list_news_include_on_fragment_main, 15000);
+        verifyViewIsDisplayed("News");
     }
 
-    private void waitForView(int viewId, long duration) {
-        onView(isRoot()).perform(waitDisplayed(viewId, duration));
+    private void waitForViewToBeDisplayed(int viewId, long timeout) {
+        onView(isRoot()).perform(waitDisplayed(viewId, timeout));
     }
 
-    private void performClick(int viewId) {
+    private void performClickOnView(int viewId) {
         onView(withId(viewId)).perform(click());
     }
 
-    private void typeTextInView(int viewId, String text) {
+    private void enterTextInView(int viewId, String text) {
         onView(withId(viewId)).perform(click(), typeText(text));
     }
 
-    private void performClickWithText(String text) {
-        onView(withText(text)).perform(click());
-    }
-
-    private void checkViewIsDisplayed(String text) {
+    private void verifyViewIsDisplayed(String text) {
         onView(withText(text)).check(matches(isDisplayed()));
     }
 }

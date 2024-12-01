@@ -1,7 +1,6 @@
 package ru.iteco.fmhandroid.ui;
 
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.clearText;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.action.ViewActions.typeText;
@@ -26,7 +25,7 @@ import ru.iteco.fmhandroid.R;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class TestCase3 {
+public class Scenario_Number_3 {
 
     @Rule
     public ActivityScenarioRule<AppActivity> mActivityScenarioRule =
@@ -51,7 +50,12 @@ public class TestCase3 {
                 .perform(replaceText(""));
         onView(withId(R.id.news_item_title_text_input_edit_text)).
                 perform(click(), typeText("New News"));
+
         onView(isRoot()).perform(waitDisplayed(R.id.news_item_create_date_text_input_layout, 5000));
+        onView(withId(R.id.news_item_create_date_text_input_layout)).perform(click());
+        //onView(isRoot()).perform(waitDisplayed(R.id., 5000));
+        //onView(withText("1")).perform(click());
+
 
     }
 }
